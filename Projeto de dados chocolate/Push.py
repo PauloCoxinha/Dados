@@ -1,0 +1,30 @@
+import pandas as pd 
+from bs4 import BeautifulSoup
+import requests
+
+#Importamos grande parte das dependencias tecnologicas para o projeto
+
+
+
+#pegamos a url que iremos fazer um request (no caso é o carrefour)
+
+url = "https://www.carrefour.com.br/?cq_src=google_ads&cq_cmp=22643297179&cq_con=183404168551&cq_term=carrefour&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&gad_source=1&gad_campaignid=22643297179&gbraid=0AAAAADjinonQYV5eEtlYA1nuBXcjWndj4&gclid=Cj0KCQjw2OnUBhC2ARIsACKyfaG5T2dyyIGb-peuEuN0CClz7enettPEUb9pb3LBnwCGxDqsxcfQWDwaAkTOEALw_wcB"
+
+#Pro carrefour entender que a gente na "teoria" a gente é um usuario, iremos dizer que somos um usuario que está utilizando o windows 10 com sistema operacional x64, com o chrome na versão 120.0.0.0, e diremos que ele é compativel tanto com o mobizilla quanto com o safari
+
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+}
+
+
+#Aqui a gente faz a requisição para dos headers do html pra testar se está funcionando
+resposta = requests.get(url, headers=headers)
+
+
+#A gente vai verificar se o servidor respondeu pra gente e permitiu o acesso, por isso a gente está utilizando os status code, onde o principal onde foi aceito é a requisição 200. O HTML.parser basicamente identifica as tags html de um site inteiro. resposta.text porque quando você pega o headers, ele vem com vários dados como status code, tags, informações desnecessárias e etc... por isso utilizamos como .text porque assim ele só vai pegar as tags.
+if resposta.status_code == 200:
+        print("Conexão bem sucedida, o site liberou!")
+        sopa = BeautifulSoup(resposta.text, 'html.parser')
+else:
+        print(f"Bloqueado! Código do erro: {resposta.status_code}")
+
