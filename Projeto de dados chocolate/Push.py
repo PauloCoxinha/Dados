@@ -25,6 +25,42 @@ resposta = requests.get(url, headers=headers)
 if resposta.status_code == 200:
         print("Conexão bem sucedida, o site liberou!")
         sopa = BeautifulSoup(resposta.text, 'html.parser')
+        dados_extraidos = []
+
+        #O bloco de produtos serve basicamente pra procurar o link da tag >a< e o find_all pra selecionar todos que possuem o >a< + os atributos como data-test: search-product-card
+
+        bloco_de_produtos = sopa.find_all('a', attrs={'data-test': 'search-product-card'})
+
+        for bloco in bloco_de_produtos:
+        # Aqui a gente vai buscar o nome do elemento (no caso o nome do produto), ent a gente fala pra cada bloco que está dentro de bloco_de_produtos vai procurar pela tag H2 e vai dizer que a classe precisa estar em text-sm (texto pequeno), depois iremos dizer que ele vai tirar os espaços desnecessários + iremos dizer para caso o item exista, marcar como o nome dele e caso não exista marcar como 'sem nome'
+                nome_elemento = sopa.find('h2', class_='text-sm')
+                nome = nome_elemento.text.strip() if nome_elemento else 'Sem nome'
+
+        # A gente vai aplicar a mesma coisa só que com o preço 
+                preco_elemento = sopa.find('span', class_='text-blue-royal')
+                preco = preco_elemento.text.strip() if preco_elemento else '0'
+
+        #adicionaremos para a váriavel de dados extraidos 
+
+                dados_extraidos.append({'Nome': nome, 'Preço': preco})
+
+        #Transformaremos isso em uma tabela 
+        
+        df = pd.DataFrame(dados_extraidos)
+
+        df['Preço'] = df['Preço'].str.replace(r'R\$ ', '', regex=True).str.replace(',', '.').astype(float)              
+
+        df.to_csv("Chocolates_Carrefour.csv", index=False)
+
+
+
+
+        
+
+
+
+
+
 else:
         print(f"Bloqueado! Código do erro: {resposta.status_code}")
 
