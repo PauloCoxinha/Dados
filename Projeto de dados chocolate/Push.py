@@ -8,7 +8,7 @@ import requests
 
 #pegamos a url que iremos fazer um request (no caso é o carrefour)
 
-url = "https://www.carrefour.com.br/?cq_src=google_ads&cq_cmp=22643297179&cq_con=183404168551&cq_term=carrefour&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&gad_source=1&gad_campaignid=22643297179&gbraid=0AAAAADjinonQYV5eEtlYA1nuBXcjWndj4&gclid=Cj0KCQjw2OnUBhC2ARIsACKyfaG5T2dyyIGb-peuEuN0CClz7enettPEUb9pb3LBnwCGxDqsxcfQWDwaAkTOEALw_wcB"
+url = "https://mercado.carrefour.com.br/categoria/mercearia/guloseimas/chocolates-e-bombons"
 
 #Pro carrefour entender que a gente na "teoria" a gente é um usuario, iremos dizer que somos um usuario que está utilizando o windows 10 com sistema operacional x64, com o chrome na versão 120.0.0.0, e diremos que ele é compativel tanto com o mobizilla quanto com o safari
 
@@ -37,7 +37,7 @@ if resposta.status_code == 200:
                 nome = nome_elemento.text.strip() if nome_elemento else 'Sem nome'
 
         # A gente vai aplicar a mesma coisa só que com o preço 
-                preco_elemento = sopa.find('span', class_='text-blue-royal')
+                preco_elemento = sopa.find('span', class_='text-price-default')
                 preco = preco_elemento.text.strip() if preco_elemento else '0'
 
         #adicionaremos para a váriavel de dados extraidos 
@@ -48,9 +48,19 @@ if resposta.status_code == 200:
         
         df = pd.DataFrame(dados_extraidos)
 
-        df['Preço'] = df['Preço'].str.replace(r'R\$ ', '', regex=True).str.replace(',', '.').astype(float)              
 
-        df.to_csv("Chocolates_Carrefour.csv", index=False)
+        if not df.empty:
+                df['Preço'] = df['Preço'].str.replace(r'R\$ ', '', regex=True).str.replace(',', '.').astype(float)     
+                df.to_csv("Chocolates_Carrefour.csv", index=False)      
+                print("A extração está pronta pra ser limpa")
+                print(df.head())
+
+        else:
+                print("A extração falhou: Nenhum produto encontrado ou o site pode ter bloqueado o request.")
+
+                with open("html_recebido.html", "w", encoding="utf-8") as arquivo:
+                        arquivo.write(resposta.text)
+       
 
 
 
