@@ -25,3 +25,25 @@ soup = BeautifulSoup(resposta.text, 'html.parser')
 tabela = soup.find('table', class_="contacao_lista")
 
 print(tabela)
+
+dados_extraidos = []
+
+linhas = tabela.find_all('tr')
+
+for linha in linhas:
+    colunas = linha.find_all('td')
+
+    if len(colunas) > 5:
+        produtos = colunas[0].text.strip()
+        classificacao = colunas[1].text.strip()
+        unidade = colunas[2].text.strip()
+        preco_menor = colunas[3].text.strip()
+        preco_comum = colunas[4].text.strip()
+        preco_maior = colunas[5].text.strip()
+
+        dados_extraidos.append([produtos, classificacao, unidade, preco_menor, preco_comum, preco_maior])
+
+df_bronze = pd.DataFrame(dados_extraidos, columns=['produtos', 'classificacao', 'unidade', 'preco_menor', 'preco_comum', 'preco_maior'])
+
+
+print(df_bronze.head(10))
