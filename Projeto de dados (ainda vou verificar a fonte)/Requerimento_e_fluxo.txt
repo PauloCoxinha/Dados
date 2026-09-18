@@ -1,0 +1,12 @@
+Bom aqui eu irei explicar como vai funcionar o fluxo e as tecnologias que eu vou utilizar.
+
+
+Basicamente a gente vai selecioanr algumas etapas conhecidas como bronze, silver, gold e camada de consumo (a gente chama assim por que a gente "Simula" a AWS.)
+
+1 - Camada de bronze (extração dos dados): A gente vai selecionar os dados com beautifulSoup e request para extrair dados
+
+2 - Camada silver (transformação dos dados): A gente vai utilizar o Pandas para limpar os dados, e deixar eles legiveis.
+
+3 - Camada Gold (Modelagem de dados): Após os dados estarem limpos a gente vai utilizar um schema para colocar eles, ou seja dentro de um banco de dados.
+
+4 - camada de consumo (Conectando com apps para dashboard): Conectaremos com PowerBI diretamente nos arquivos PARQUET da camada gold para criar o dashboard de sazonialidade e inflação agricola.

@@ -1,10 +1,15 @@
+#Nessa primeira parte a gente vai basicamente requisitar as tecnologias que iremos utilizar, que no caso seria o pandas para analisar os dados, o request pra requisitar a entrada do site e o bs4 (beautifulsoup) para extrair os dados.
+
 import pandas as pd 
 import requests 
 from bs4 import BeautifulSoup
 
+# Aqui a gente vai dizer qual url a váriavel vai guardar que no caso é o ceagesp pois esse site é oficial e fala sobre a cotação de frutas e outras coisas, a escolha do ceagesp foi porque o site aceita a extração do beautifulsoup sem questionar se é um bot ou não.
 
 url = "https://ceagesp.gov.br/cotacoes/"
 
+
+#A parte de sessão é uma parte "nova" justamente porque eu enfrentei um problema onde os dados que eu estava recebendo estavam retornando como "none". ou seja, o site estava negando de alguma forma, ou eu estava extraindo de maneira "incorreta". Para resolver essa situação eu parti do principio que o site funcionava com COOKIES e os headers de usuários então eu simulei uma sessão de cookies utilizando o request.Session()
 sessao = requests.Session()
 
 headers = {
@@ -47,3 +52,4 @@ df_bronze = pd.DataFrame(dados_extraidos, columns=['produtos', 'classificacao', 
 
 
 print(df_bronze.head(10))
+
