@@ -1,0 +1,7 @@
+O Fluxo vai funcionar assim: Extrair dados de algumas bases do mercado > Organizar esses dados > Analisar esses dados > criar novas métricas > orientar os dados para que sejam organizados para demonstração do protótipo e por fim fazer um power BI ou um HTML propriamente dito, para demonstração dos dados 
+
+Stack: Pandas, BeatifoulSoup, Python, Power BI 
+
+Primeira parte: Basicamente eu vou extrair dados de algumas bases famosas que vendem chocolate no brasil (como por exemplo carrefour, eu queria focar mais no comércio em si por ser mercado, do que mercados online. Eu estou fazendo isso justamente porque eu acho que as pessoas compram alimentos fisicamente do que no modo online)
+
+

@@ -64,13 +64,6 @@ if resposta.status_code == 200:
 
 
 
-
-        
-
-
-
-
-
 else:
         print(f"Bloqueado! Código do erro: {resposta.status_code}")
 
