@@ -54,5 +54,5 @@ df_bronze = pd.DataFrame(dados_extraidos, columns=['produtos', 'classificacao', 
 print(df_bronze.head(10))
 
 
-print("Salve rapaziada, n vou perder aa droga da sequencia")
+p
 
